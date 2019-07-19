@@ -13,7 +13,7 @@ to your `composer.json` file:
 ```json
 {
     "require": {
-        "business-mastery/omnipay-mobilpay": "~1.0"
+        "adrianbarbos/omnipay-mobilpay": "~1.2.1"
     }
 }
 ```
