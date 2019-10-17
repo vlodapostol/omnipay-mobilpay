@@ -214,6 +214,22 @@ class PurchaseRequest extends AbstractRequest
     }
 
     /**
+     * @return array
+     */
+    public function getShippingAddress()
+    {
+        return $this->getParameter('shippingAddress');
+    }
+
+    /**
+     * @param  array $value
+     */
+    public function setShippingAddress($value)
+    {
+        $this->setParameter('shippingAddress', $value);
+    }
+
+    /**
      * Build encrypted request data
      *
      * @return array
@@ -254,6 +270,10 @@ class PurchaseRequest extends AbstractRequest
             $request->invoice->setBillingAddress($this->makeBillingAddress($getBillingAddress));
         }
 
+        if ($shippingAddress = $this->getShippingAddress()) {
+            $request->invoice->setShippingAddress($this->makeShippingAddress($shippingAddress));
+        }
+
         $request->encrypt($this->getParameter('publicKey'));
 
         $data = [
@@ -290,6 +310,16 @@ class PurchaseRequest extends AbstractRequest
         $address->iban           = $parameters['iban'];
 
         return $address;
+    }
+
+    /**
+     * @param array $parameters
+     *
+     * @return Address
+     */
+    public function makeShippingAddress(array $parameters = [])
+    {
+        return $this->makeBillingAddress($parameters);
     }
 
     /**

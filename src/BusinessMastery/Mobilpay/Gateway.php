@@ -165,6 +165,23 @@ class Gateway extends AbstractGateway
     }
 
     /**
+     * @return mixed
+     */
+    public function getShippingAddress()
+    {
+        return $this->getParameter('shippingAddress');
+    }
+
+    /**
+     * @param  array $parameters
+     * @return mixed
+     */
+    public function setShippingAddress(array $parameters = [])
+    {
+        $this->setParameter('shippingAddress', $parameters);
+    }
+
+    /**
      * @param  array $parameters
      * @return \Omnipay\Common\Message\ResponseInterface|Response
      */
