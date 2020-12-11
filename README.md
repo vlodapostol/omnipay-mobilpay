@@ -40,6 +40,7 @@ $response = $gateway->purchase([
     'amount'     => '10.00',
     'currency'   => 'RON',
     'orderId'    => 1,
+    'transactionType' => 'sms', //if you want the payment type to be sms, otherwise don't add this parameter
     'confirmUrl' => 'http://example.com/ipn',
     'returnUrl'  => 'http://www.google.com',
     'details'    => 'Test payment',
