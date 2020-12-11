@@ -3,12 +3,14 @@
 namespace Omnipay\MobilPay\Message;
 
 use DOMDocument;
+use Illuminate\Support\Facades\Log;
 use SimpleXMLElement;
 use Omnipay\MobilPay\Api\Invoice;
 use Omnipay\MobilPay\Api\Address;
 use Omnipay\MobilPay\Api\Recurrence;
 use Omnipay\MobilPay\Api\Request\Card;
 use Omnipay\Common\Message\AbstractRequest;
+use Omnipay\MobilPay\Api\Request\Sms;
 use Omnipay\MobilPay\Exception\MissingKeyException;
 
 /**
@@ -230,6 +232,40 @@ class PurchaseRequest extends AbstractRequest
     }
 
     /**
+     * @return string
+     */
+    public function getTransactionType()
+    {
+        return $this->getParameter('transactionType');
+    }
+
+    /**
+     * @param  string $value
+     * @return mixed
+     */
+    public function setTransactionType($value)
+    {
+        return $this->setParameter('transactionType', $value);
+    }
+
+    /**
+     * @return string
+     */
+    public function getService()
+    {
+        return $this->getParameter('service');
+    }
+
+    /**
+     * @param  string $value
+     * @return mixed
+     */
+    public function setService($value)
+    {
+        return $this->setParameter('service', $value);
+    }
+
+    /**
      * Build encrypted request data
      *
      * @return array
@@ -244,12 +280,18 @@ class PurchaseRequest extends AbstractRequest
         $envKey = $envData = null;
         $publicKey = $this->getParameter('publicKey');
 
-        if (! $publicKey) {
+        if (!$publicKey) {
             throw new MissingKeyException("Missing public key path parameter");
         }
 
-        $request = new Card();
+        if ($this->getTransactionType() == 'sms') {
+            $request = new Sms();
+        } else {
+            $request = new Card();
+        }
+
         $request->signature  = $this->getMerchantId();
+        $request->service    = $this->getService();
         $request->orderId    = $this->getParameter('orderId');
         $request->confirmUrl = $this->getParameter('confirmUrl');
         $request->returnUrl  = $this->getParameter('returnUrl');
