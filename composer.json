@@ -28,7 +28,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Omnipay\\MobilPay\\": "src/BusinessMastery/Mobilpay"
+            "Omnipay\\MobilPay\\": "src/vlodapostol/Mobilpay"
         }
     },
     "minimum-stability": "dev"
